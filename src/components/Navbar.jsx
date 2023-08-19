@@ -1,15 +1,18 @@
+import { Link } from "react-router-dom";
 import HomeIcon from "../assets/home.png";
 
-function Navbar() {
+function Navbar(prop) {
     return (
         <>
             <nav>
                 <ul className="container">
                     <li>
-                        search
+                        {prop.element}
                     </li>
                     <li className="cursor-pointer">
-                        <img className="home-icon" src={HomeIcon} />
+                        <Link to={"/"}>
+                            <img className="home-icon" src={HomeIcon} />
+                        </Link>
                     </li>
                 </ul>
             </nav>

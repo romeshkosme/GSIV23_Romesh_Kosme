@@ -4,6 +4,9 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import { Provider } from 'react-redux';
+import store from './store/store';
+import Wrapper from './components/Wrapper';
 const Home = React.lazy(() => import("./pages/Home"));
 const Movie = React.lazy(() => import("./pages/Movie"));
 
@@ -14,17 +17,21 @@ function App() {
       element: <Home />,
     },
     {
-      path: "movie",
+      path: "movie/:id",
       element: <Movie />
     }
   ]);
   return (
     <>
-      <React.StrictMode>
-        <Suspense fallback={<div>Loading..</div>}>
-          <RouterProvider router={router} />
-        </Suspense>
-      </React.StrictMode>
+      {/* <React.StrictMode> */}
+        <Provider store={store}>
+          <Suspense fallback={<div>Loading..</div>}>
+            <Wrapper>
+              <RouterProvider router={router} />
+            </Wrapper>
+          </Suspense>
+        </Provider>
+      {/* </React.StrictMode> */}
     </>
   )
 }
