@@ -145,3 +145,7 @@ h4.movie-heading {
 .movie-description {
     padding: 10px 0px;
 }
+/* page not found */
+.page-not-found {
+    text-align: center;
+}

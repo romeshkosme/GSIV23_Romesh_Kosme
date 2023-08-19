@@ -49,6 +49,10 @@ const moviesSlice = createSlice({
     .addCase(fetchMovie.pending, (state, action) => {
       state.loading = true;
       state.movie = {};
+      state.movies = [];
+      state.page = 1;
+      state.total_pages = 0;
+      state.search = "";
     })
     .addCase(fetchMovie.fulfilled, (state, action) => {
       state.movie = action.payload;
