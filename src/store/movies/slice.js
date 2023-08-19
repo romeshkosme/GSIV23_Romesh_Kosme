@@ -5,83 +5,89 @@ const initialState = {
     loading: false,
     movies: [],
     movie: {},
-    credits: {}
+    credits: {},
+    page: 1,
+    total_pages: 0,
+    search: ""
 }
 
 const moviesSlice = createSlice({
   name: 'movies',
   initialState,
-  // reducers: {
-  //   // Give case reducers meaningful past-tense "event"-style names
-  //   todoAdded(state, action) {
-  //     const { id, text } = action.payload
-  //     // "Mutating" update syntax thanks to Immer, and no `return` needed
-  //     state.todos.push({
-  //       id,
-  //       text,
-  //       completed: false
-  //     })
-  //   },
-  //   todoToggled(state, action) {
-  //     // Look for the specific nested object to update.
-  //     // In this case, `action.payload` is the default field in the action,
-  //     // and can hold the `id` value - no need for `action.id` separately
-  //     const matchingTodo = state.todos.find(todo => todo.id === action.payload)
-
-  //     if (matchingTodo) {
-  //       // Can directly "mutate" the nested object
-  //       matchingTodo.completed = !matchingTodo.completed
-  //     }
-  //   }
-  // },
+  reducers: {
+    setSearch(state, action) {
+      const search = action.payload;
+      state.search = search;
+    },
+    resetMovies(state, action) {
+      state.movies = [];
+      state.page = 1;
+      state.movie = {};
+      state.total_pages = 0;
+    }
+  },
   extraReducers: builder => {
-    builder.addCase(fetchMovies.pending, (state, action) => {
-        state.loading  = true;
+    builder
+    // fetch movies
+    .addCase(fetchMovies.pending, (state, action) => {
+        state.loading = true;
     })
     .addCase(fetchMovies.fulfilled, (state, action) => {
-        // console.log("payload", action.payload);
-        const {results} = action.payload
-        state.movies = results;
+        const {results, page, total_pages} = action.payload
+        state.movies = [...state.movies, ...results];
+        state.page = page;
+        state.total_pages = total_pages;
+        state.loading = false;
     })
     .addCase(fetchMovies.rejected, (state, action) => {
         state.error = "Something went wrong";
         state.movies = [];
         state.movie = {}
+        state.loading = false;
     })
+    // fetch movie
     .addCase(fetchMovie.pending, (state, action) => {
       state.loading = true;
+      state.movie = {};
     })
     .addCase(fetchMovie.fulfilled, (state, action) => {
       state.movie = action.payload;
+      state.loading = false;
     })
     .addCase(fetchMovie.rejected, (state, action) => {
       state.error = "Something went wrong!"
+      state.loading = false;
     })
+    // search movie
     .addCase(searchMovies.pending, (state, action) => {
       state.loading = true;
     })
     .addCase(searchMovies.fulfilled, (state, action) => {
-      const {results} = action.payload
-      state.movies = results;
+      const {results, page, total_pages} = action.payload
+      state.movies = [...state.movies, ...results];
+      state.page = page;
+      state.total_pages = total_pages;
+      state.loading = false;
     })
     .addCase(searchMovies.rejected, (state, action) => {
       state.error = "Something went wrong!"
+      state.loading = false;
     })
+    // get credit
     .addCase(getCredits.pending, (state, action) => {
       state.loading = true;
     })
     .addCase(getCredits.fulfilled, (state, action) => {
       state.credits = action.payload;
+      state.loading = false;
     })
     .addCase(getCredits.rejected, (state, action) => {
       state.error = "Something went wrong!"
+      state.loading = false;
     })
   }
 })
 
-// `createSlice` automatically generated action creators with these names.
-// export them as named exports from this "slice" file
-// export const { todoAdded, todoToggled } = moviesSlice.actions
+export const { setSearch, resetMovies } = moviesSlice.actions
 
-// Export the slice reducer as the default export
 export default moviesSlice.reducer

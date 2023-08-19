@@ -1,10 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit'
 import axios from "../../utils/axios.config";
 
-export const fetchMovies = createAsyncThunk('movies/fetchMovies', async (payload) => {
+export const fetchMovies = createAsyncThunk('movies/fetchMovies', async (page=1) => {
     try {
         const res = await axios({
-            url: '/movie/upcoming',
+            url: `/movie/upcoming?page=${page}`,
             method: "GET"
         })
         return res.data
@@ -27,10 +27,10 @@ export const fetchMovie = createAsyncThunk('movies/fetchmovie', async (id, thunk
     }
 })
 
-export const searchMovies = createAsyncThunk('movies/searchmovie', async ({search}) => {
+export const searchMovies = createAsyncThunk('movies/searchmovie', async ({search, page=1}) => {
     try {
         const res = await axios({
-            url: `search/movie?query=${search}`,
+            url: `search/movie?query=${search}&page=${page}`,
             method: "GET"
         })
         return res.data
