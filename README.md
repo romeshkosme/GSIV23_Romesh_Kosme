@@ -1,8 +1,17 @@
-# React + Vite
+# GSIV23 Frontend Interview Assignment
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+The project is built from vite.
+Commands:
+`run: npm run dev
+build: npm run build`
 
-Currently, two official plugins are available:
+## Feature Implemented
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- Debounce on search functionality for smooth experience.
+- New Redux Toolkit with createAsyncThunk for async operation
+
+
+## Challenges
+
+- Search on debounce was a bit difficult as I'd to manage pagination as well.
+- If I'd few more hours I could have refactored the code and shimmer effect.
